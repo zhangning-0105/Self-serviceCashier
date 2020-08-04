@@ -28,20 +28,23 @@ namespace Self_serviceCashier
             this.dataGridView1.AutoGenerateColumns = false;
             dataGridView1.EnableHeadersVisualStyles = false;
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("黑体", 10, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromName("#333333");
+            this.dataGridView1.RowHeadersVisible = false;
+           // this.dataGridView1.ColumnHeadersVisible = false;
             //列Header的背景色
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(57, 57, 57);
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromName("#DADADA");
             dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridView1.ColumnHeadersHeight = 30;
             dataGridView1.RowTemplate.Height = 30;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-             this.panel1.Hide();
+            this.dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(229, 243, 255);
+            //this.panel1.Hide();
             timer1.Interval = 3000;
             timer1.Tick += Timer1_Tick;
             timer2.Interval = 1000;
             timer2.Tick += Timer2_Tick;
-
+            this.groupBox1.Hide();
         }
 
         // 连接模式
@@ -71,7 +74,7 @@ namespace Self_serviceCashier
         private List<string> tids = new List<string>();
         // 标签个数（不重复),总的个数(含重复)
         private long mlTagCount = 0, mlTotalCount = 0;
-        private decimal totalpricie = 0;
+        private decimal totalpricie = 0, totalallprice = 0, totaldiscount = 0;
         private  int count = 3;
 
         private void mainwindow_Load(object sender, EventArgs e)
@@ -285,8 +288,8 @@ namespace Self_serviceCashier
                         {
                             if (findFlag)
                             {
-                                dataGridView1.Rows[itemIdx].Cells[2].Value = dataGridView1.Rows[itemIdx].Cells[2].ToString() + item[3].ToString();
-                                dataGridView1.Rows[itemIdx].Cells[3].Value = dataGridView1.Rows[itemIdx].Cells[3].ToString() + item[3].ToString();
+                                dataGridView1.Rows[itemIdx].Cells[4].Value = dataGridView1.Rows[itemIdx].Cells[4].ToString() + item[3].ToString();
+                                dataGridView1.Rows[itemIdx].Cells[5].Value = dataGridView1.Rows[itemIdx].Cells[5].ToString() + item[2].ToString();
                             }
                             else
                             {
@@ -296,8 +299,13 @@ namespace Self_serviceCashier
                                 mlTagCount++;
                                 dataGridView1.Rows[0].Selected = false;
                             }
-                            totalpricie += Convert.ToDecimal(item[3]);
+                            totalpricie += Convert.ToDecimal(item[4]);
+                            totalallprice += Convert.ToDecimal(item[2]);
+                            totaldiscount += Convert.ToDecimal(item[3]);
                             this.label3.Text = totalpricie.ToString();
+                            this.label12.Text = mlTagCount.ToString();
+                            this.label13.Text = totalallprice.ToString();
+                            this.label14.Text = totaldiscount.ToString();
                         }
                         this.panel1.Show();
                         this.groupBox1.Hide();
@@ -313,47 +321,63 @@ namespace Self_serviceCashier
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-            this.groupBox1.Show();
-            this.label6.Hide();
-            this.button2.Hide();
+            label15.Text = totalpricie.ToString();
             timer1.Enabled = true;
-          
-        
+            pictureBox5.Hide();
+            pictureBox1.Show();
+            pictureBox4.Show();
+            label6.Hide();
+            label16.Hide();
+            label17.Hide();
+            this.groupBox1.Show();
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
             count = 3;
-            this.label5.Text = "付款完成！";
+            this.label5.Text = "付款成功，订单已完成！";
             timer1.Enabled = false;
-            this.label6.Show();
-            this.button2.Show();
+            //this.label6.Show();
             timer2.Enabled = true;
-   
-          
+            totalpricie = 0;
+            totalallprice = 0;
+            totaldiscount = 0;
+            mlTagCount = 0;
+            this.groupBox1.Show();
+            pictureBox1.Hide();
+            pictureBox4.Hide();
+            label4.Hide();
+            label15.Hide();
+            pictureBox5.Show();
+            label6.Show();
+            label16.Show();
+            label17.Show();
+            // this.label6.Hide();
+            this.label12.Text = "";
+            this.label13.Text = "";
+            this.label14.Text = "";
         }
 
         private void Timer2_Tick(object sender, EventArgs e)
         {
            
             if (count == 0)
-            {
-                
+            {              
                 timer2.Enabled = false;
                 this.label5.Text = "正在付款，请稍后";
-                this.label6.Text = "3秒后返回";
+                this.label6.Text = "3";
                 this.totalpricie = 0;
                 this.label3.Text = "";
                 this.dicInventoryData.Clear();
                 this.tids.Clear();
                 this.dataGridView1.Rows.Clear();
+                this.pictureBox5.Hide();
                 Console.WriteLine(count+"  1   " + DateTime.Now.ToString());
-                this.panel1.Hide();
+                this.groupBox1.Hide();
             }
             else
             {
-                this.label6.Text = $"{count}秒后返回";
+                this.label6.Text = count.ToString();
                 Console.WriteLine(count+"   2   " + DateTime.Now.ToString());
                 count--;
             }
@@ -362,30 +386,60 @@ namespace Self_serviceCashier
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (e.ColumnIndex < 0 && e.RowIndex >= 0) // 绘制 自动序号
-            {
-                e.Paint(e.ClipBounds, DataGridViewPaintParts.All);
-                Rectangle vRect = e.CellBounds;
-                vRect.Inflate(-2, 2);
-                TextRenderer.DrawText(e.Graphics, (e.RowIndex + 1).ToString(), e.CellStyle.Font, vRect, e.CellStyle.ForeColor, TextFormatFlags.Right | TextFormatFlags.VerticalCenter);
-                e.Handled = true;
-            }
-            // e.CellStyle.SelectionBackColor = Color.White; // 选中单元格时，背景色
-            e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; //单位格内数据对齐方式
+            //if (e.ColumnIndex < 0 && e.RowIndex >= 0) // 绘制 自动序号
+            //{
+            //    e.Paint(e.ClipBounds, DataGridViewPaintParts.All);
+            //    Rectangle vRect = e.CellBounds;
+            //    vRect.Inflate(-2, 2);
+            //    TextRenderer.DrawText(e.Graphics, (e.RowIndex + 1).ToString(), e.CellStyle.Font, vRect, e.CellStyle.ForeColor, TextFormatFlags.Right | TextFormatFlags.VerticalCenter);
+            //    e.Handled = true;
+            //}
+            //// e.CellStyle.SelectionBackColor = Color.White; // 选中单元格时，背景色
+            //e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; //单位格内数据对齐方式
         }
 
-        private void button2_Click(object sender, EventArgs e)
+   
+
+        private void xButton2_Click(object sender, EventArgs e)
         {
             count = 3;
             timer2.Enabled = false;
+            timer1.Enabled = false;
             this.label5.Text = "正在付款，请稍后";
-            this.label6.Text = "3秒后返回";
+            this.label6.Text = "3";
             this.totalpricie = 0;
             this.label3.Text = "";
             this.dicInventoryData.Clear();
             this.tids.Clear();
             this.dataGridView1.Rows.Clear();
-            this.panel1.Hide();
+            //this.panel1.Hide();
+            this.groupBox1.Hide();
+        }
+
+        private void xButton1_Click(object sender, EventArgs e)
+        {
+            this.dicInventoryData.Clear();
+            this.tids.Clear();
+            this.dataGridView1.Rows.Clear();
+            this.label3.Text = "0";
+            this.label12.Text = "0";
+            this.label13.Text = "0";
+            this.label14.Text = "0";
+            totalpricie = 0;
+            totalallprice = 0;
+            totaldiscount = 0;
+            mlTagCount = 0;
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            this.dicInventoryData.Clear();
+            this.tids.Clear();
+            this.dataGridView1.Rows.Clear();
+            this.label12.Text = "0";
+            this.label13.Text = "0";
+            this.label14.Text = "0";
+            this.label3.Text = "0";
         }
 
         private int getModuleBaseInfo()

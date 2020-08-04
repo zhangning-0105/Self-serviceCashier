@@ -48,10 +48,11 @@ namespace Self_serviceCashier
                         object[] row =
                         {
                           mySqlDataReader[1].ToString(),
-                          mySqlDataReader[2].ToString(),
-                            1.ToString(),
+                          mySqlDataReader[2].ToString(),              
                           mySqlDataReader[3].ToString(),
-                        
+                          "-"+Convert.ToDecimal(mySqlDataReader[4]),
+                          Convert.ToDecimal(mySqlDataReader[3])- Convert.ToDecimal(mySqlDataReader[4]),
+                         1.ToString(),
                        };
                         list.Add(row);
                     }

@@ -113,6 +113,12 @@
     <Compile Include="uhflib\Constants.cs" />
     <Compile Include="uhflib\Native.cs" />
     <Compile Include="uhflib\Structs.cs" />
+    <Compile Include="XButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="XButton.Designer.cs">
+      <DependentUpon>XButton.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="mainwindow.resx">
       <DependentUpon>mainwindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,7 +150,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="images\二维码.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\付款成功.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\微信支付二维码.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\支付信息背景.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\清空%402x.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="images\背景图.png">
