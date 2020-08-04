@@ -159,6 +159,7 @@
     <Content Include="images\付款成功.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="images\图层1.png" />
     <Content Include="images\微信支付二维码.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

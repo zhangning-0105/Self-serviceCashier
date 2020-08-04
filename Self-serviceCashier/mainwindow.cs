@@ -27,7 +27,7 @@ namespace Self_serviceCashier
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.AutoGenerateColumns = false;
             dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("黑体", 10, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("黑体", 10);
             dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromName("#333333");
             this.dataGridView1.RowHeadersVisible = false;
            // this.dataGridView1.ColumnHeadersVisible = false;
@@ -39,6 +39,9 @@ namespace Self_serviceCashier
             dataGridView1.RowTemplate.Height = 30;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             this.dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(229, 243, 255);
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.AllowUserToResizeColumns = false;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             //this.panel1.Hide();
             timer1.Interval = 3000;
             timer1.Tick += Timer1_Tick;
