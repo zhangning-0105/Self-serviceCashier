@@ -411,7 +411,7 @@ namespace Self_serviceCashier
             this.label5.Text = "正在付款，请稍后";
             this.label6.Text = "3";
             this.totalpricie = 0;
-            this.label3.Text = "";
+            this.label3.Text = "0";
             this.dicInventoryData.Clear();
             this.tids.Clear();
             this.dataGridView1.Rows.Clear();
