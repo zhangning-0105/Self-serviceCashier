@@ -356,9 +356,9 @@ namespace Self_serviceCashier
             label16.Show();
             label17.Show();
             // this.label6.Hide();
-            this.label12.Text = "";
-            this.label13.Text = "";
-            this.label14.Text = "";
+            this.label12.Text = "0";
+            this.label13.Text = "0";
+            this.label14.Text = "0";
         }
 
         private void Timer2_Tick(object sender, EventArgs e)
@@ -370,7 +370,7 @@ namespace Self_serviceCashier
                 this.label5.Text = "正在付款，请稍后";
                 this.label6.Text = "3";
                 this.totalpricie = 0;
-                this.label3.Text = "";
+                this.label3.Text = "0";
                 this.dicInventoryData.Clear();
                 this.tids.Clear();
                 this.dataGridView1.Rows.Clear();
